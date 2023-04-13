@@ -22,6 +22,12 @@ require("../header.php");
                 <td><?= $row[0] ?></td>
                 <td><?= $row[1] ?></td>
                 <td><?= $row[2] ?></td>
+                <td>
+                    <form action="trainer_delete.php" method="POST" onsubmit="return confirm('Are you sure?')">
+                        <input type="hidden" name="email" value="<?= $row[0] ?>">
+                        <button style="color: red; font-weight: bold;">&cross;</button>
+                    </form>
+                </td>
             </tr>
         <?php endwhile ?>
     </table>
