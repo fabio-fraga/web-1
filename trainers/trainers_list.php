@@ -10,30 +10,37 @@ require("../header.php");
 <?php $handler_trainers_file = fopen(TRAINERS_DATA, 'r'); ?>
 
 <?php if (file_exists(TRAINERS_DATA) && sizeof(file(TRAINERS_DATA)) > 0): ?>
-    <table>
-        <tr>
-            <th>Email</th>
-            <th>Name</th>
-            <th>Surname</th>
-        </tr>
 
-        <?php while(($row = fgetcsv($handler_trainers_file)) !== false): ?>
+    <form action="trainers_multiple_delete.php" method="POST" onsubmit="return confirm('Are you sure?')">
+        <table>
             <tr>
-                <td><?= $row[0] ?></td>
-                <td><?= $row[1] ?></td>
-                <td><?= $row[2] ?></td>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Surname</th>
+            </tr>
+        
+            <?php while(($row = fgetcsv($handler_trainers_file)) !== false): ?>
+                <tr>
+                    <td><?= $row[0] ?></td>
+                    <td><?= $row[1] ?></td>
+                    <td><?= $row[2] ?></td>
+                    <td>
+                        <a href="trainer_page.php?email=<?= $row[0] ?>" style="text-decoration: none">&#128065;</a>
+                    </td>
+                    <td>
+                        <input type="checkbox" name="emails[]" value="<?= $row[0] ?>">
+                    </td>
+                </tr>
+            <?php endwhile ?>
+            <tr>
+                <td colspan="4"></td>
                 <td>
-                    <a href="trainer_page.php?email=<?= $row[0] ?>" style="text-decoration: none">&#128065;</a>
-                </td>
-                <td>
-                    <form action="trainer_delete.php" method="POST" onsubmit="return confirm('Are you sure?')">
-                        <input type="hidden" name="email" value="<?= $row[0] ?>">
-                        <button style="color: red; font-weight: bold;">&cross;</button>
-                    </form>
+                    <button style="color: red;">&cross;</button>
                 </td>
             </tr>
-        <?php endwhile ?>
-    </table>
+        </table>
+    </form>
+
 <?php endif ?>
 
 <?php if (isset($_GET["err"])): ?>
